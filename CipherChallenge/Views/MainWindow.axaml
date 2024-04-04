@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:CipherChallenge.ViewModels"
+        xmlns:cc="using:CipherChallange.Views"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -8,13 +9,46 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="CipherChallenge">
-
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+    <StackPanel>
+        <Border Background="#30808080">
+            <ListBox SelectionMode="AlwaysSelected" FontSize="{Binding BaseSize}" SelectedIndex="{Binding SelectedIndex}" ItemsSource="{Binding CipherNameList}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>                    
+                </ListBox.ItemsPanel>    
+            </ListBox> 
+        </Border>
+        <Border>
+            <Grid RowDefinitions="auto,*,auto,*" ColumnDefinitions="*,*">
+                <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Vertical" HorizontalAlignment="Stretch">
+                    <ItemsControl HorizontalAlignment="Stretch" ItemsSource="{Binding CipherKeys}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="auto,*">
+                                    <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{Binding KeyName}" />
+                                    <TextBox Grid.Column="1" Text="{Binding KeyValue, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="{Binding KeyParseError}" Foreground="Red" />
+                </StackPanel>
+                <TextBox Grid.Row="1" Grid.ColumnSpan="2" MinHeight="{Binding TextBoxSize}" AcceptsReturn="True" Text="{Binding PlainText, Mode=TwoWay}"/>
+                    <Button Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center" Content="↓ Encode" Command="{Binding Encode}" HorizontalAlignment="Stretch" FontSize="{Binding BaseSize}"/>
+                    <Button Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" Content="Decode ↑" Command="{Binding Decode}" HorizontalAlignment="Stretch" FontSize="{Binding BaseSize}"/>
+                <TextBox Grid.Row="3" Grid.ColumnSpan="2" MinHeight="{Binding TextBoxSize}" AcceptsReturn="True" Text="{Binding EncodedText, Mode=TwoWay}"/>
+            </Grid>
+        </Border>
+    </StackPanel>
 </Window>
