@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace CipherChallenge;
 
-class DoubleTranspositionCipher() : ICipher
+class DoubleTranspositionCipher() : ICipher //TODO
 {
     public string Name => "Double Transposition";
 
