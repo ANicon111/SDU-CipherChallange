@@ -24,22 +24,48 @@ class PlayfairCipher() : ICipher
 
     public string Decode(string encodedText)
     {
-        string alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+        string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         List<char> letters = [];
-        encodedText = encodedText.ToUpper();
+        List<char> originalWithPlaceholders = [];
         foreach (char character in encodedText)
         {
-            char c = character;
+            char c = char.ToUpper(character);
             if (alphabet.Contains(c))
             {
                 if (c == 'J') c = 'I';
+                if (letters.Count % 2 == 1 && c == letters.LastOrDefault('0'))
+                {
+                    if (c == 'X')
+                    {
+                        letters.Add('Q');
+                    }
+                    else
+                    {
+                        letters.Add('X');
+                    }
+                    originalWithPlaceholders.Add('J');
+                }
                 letters.Add(c);
+                originalWithPlaceholders.Add(char.IsUpper(character) ? 'J' : 'j');
+            }
+            else
+            {
+                originalWithPlaceholders.Add(character);
             }
         }
 
         if (letters.Count % 2 == 1)
-            if (letters[^1] == 'X') letters.Add('Q');
-            else letters.Add('X');
+        {
+            if (letters[^1] == 'X')
+            {
+                letters.Add('Q');
+            }
+            else
+            {
+                letters.Add('X');
+            }
+            originalWithPlaceholders.Add('J');
+        }
 
         for (int i = 0; i < letters.Count; i += 2)
         {
@@ -51,32 +77,66 @@ class PlayfairCipher() : ICipher
             letters[i] = KeyTable[aX, aY];
             letters[i + 1] = KeyTable[bX, bY];
         }
-        return new([.. letters]);
+
+        for (int i = 0, j = 0; i < originalWithPlaceholders.Count; i++)
+        {
+            if (originalWithPlaceholders[i] == 'J')
+            {
+                originalWithPlaceholders[i] = letters[j++];
+            }
+            if (originalWithPlaceholders[i] == 'j')
+            {
+                originalWithPlaceholders[i] = char.ToLower(letters[j++]);
+            }
+        }
+
+        return new([.. originalWithPlaceholders]);
     }
 
     public string Encode(string plainText)
     {
-        string alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+        string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         List<char> letters = [];
-        plainText = plainText.ToUpper();
+        List<char> originalWithPlaceholders = [];
         foreach (char character in plainText)
         {
-            char c = character;
+            char c = char.ToUpper(character);
             if (alphabet.Contains(c))
             {
                 if (c == 'J') c = 'I';
                 if (letters.Count % 2 == 1 && c == letters.LastOrDefault('0'))
                 {
-                    if (c == 'X') letters.Add('Q');
-                    else letters.Add('X');
+                    if (c == 'X')
+                    {
+                        letters.Add('Q');
+                    }
+                    else
+                    {
+                        letters.Add('X');
+                    }
+                    originalWithPlaceholders.Add('J');
                 }
                 letters.Add(c);
+                originalWithPlaceholders.Add(char.IsUpper(character) ? 'J' : 'j');
+            }
+            else
+            {
+                originalWithPlaceholders.Add(character);
             }
         }
 
         if (letters.Count % 2 == 1)
-            if (letters[^1] == 'X') letters.Add('Q');
-            else letters.Add('X');
+        {
+            if (letters[^1] == 'X')
+            {
+                letters.Add('Q');
+            }
+            else
+            {
+                letters.Add('X');
+            }
+            originalWithPlaceholders.Add('J');
+        }
 
         for (int i = 0; i < letters.Count; i += 2)
         {
@@ -88,7 +148,20 @@ class PlayfairCipher() : ICipher
             letters[i] = KeyTable[aX, aY];
             letters[i + 1] = KeyTable[bX, bY];
         }
-        return new([.. letters]);
+
+        for (int i = 0, j = 0; i < originalWithPlaceholders.Count; i++)
+        {
+            if (originalWithPlaceholders[i] == 'J')
+            {
+                originalWithPlaceholders[i] = letters[j++];
+            }
+            if (originalWithPlaceholders[i] == 'j')
+            {
+                originalWithPlaceholders[i] = char.ToLower(letters[j++]);
+            }
+        }
+
+        return new([.. originalWithPlaceholders]);
     }
 
     public string? SetKeys(List<string> keyStrings)

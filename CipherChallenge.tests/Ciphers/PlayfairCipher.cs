@@ -7,8 +7,8 @@ public class PlayfairCipher
     {
         CipherChallenge.PlayfairCipher playfairCipher = new();
         playfairCipher.SetKeys(["MONARCHY"]);
-        string expected = "LKTL";
-        string actual = playfairCipher.Encode("TEST");
+        string expected = "Lktl";
+        string actual = playfairCipher.Encode("Test");
         Assert.Equal(expected, actual);
     }
 
@@ -17,8 +17,8 @@ public class PlayfairCipher
     {
         CipherChallenge.PlayfairCipher playfairCipher = new();
         playfairCipher.SetKeys(["MONARCHY"]);
-        string expected = "TEST";
-        string actual = playfairCipher.Decode("LKTL");
+        string expected = "Test";
+        string actual = playfairCipher.Decode("Lktl");
         Assert.Equal(expected, actual);
     }
 }

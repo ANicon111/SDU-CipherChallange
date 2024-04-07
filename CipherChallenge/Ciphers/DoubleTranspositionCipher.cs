@@ -74,26 +74,28 @@ class DoubleTranspositionCipher() : ICipher
         string alphabetOrNumbers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         Order1 = [];
-        for (int i = 0; i < keyStrings[0].Length; i++)
-            if (!alphabetOrNumbers.Contains(keyStrings[0][i]))
+        string firstKeyString = keyStrings[0].ToUpper();
+        for (int i = 0; i < firstKeyString.Length; i++)
+            if (!alphabetOrNumbers.Contains(firstKeyString[i]))
                 return "Invalid first key; You may only use letters of the english alphabet or numbers";
             else
-                Order1.Add(new(keyStrings[0][i], i));
+                Order1.Add(new(firstKeyString[i], i));
         Order1.Sort((a, b) => a.Item1.CompareTo(b.Item1));
         ReverseOrder1 = new int[Order1.Count];
         for (int i = 0; i < Order1.Count; i++) ReverseOrder1[Order1[i].Item2] = i;
 
 
         Order2 = [];
-        for (int i = 0; i < keyStrings[1].Length; i++)
-            if (!alphabetOrNumbers.Contains(keyStrings[1][i]))
+        string secondKeyString = keyStrings[1].ToUpper();
+        for (int i = 0; i < secondKeyString.Length; i++)
+            if (!alphabetOrNumbers.Contains(secondKeyString[i]))
                 return "Invalid second key; You may only use letters of the english alphabet or numbers";
             else
-                Order2.Add(new(keyStrings[1][i], i));
+                Order2.Add(new(secondKeyString[i], i));
         Order2.Sort((a, b) => a.Item1.CompareTo(b.Item1));
         ReverseOrder2 = new int[Order2.Count];
         for (int i = 0; i < Order2.Count; i++) ReverseOrder2[Order2[i].Item2] = i;
 
-        return "";
+        return null;
     }
 }
