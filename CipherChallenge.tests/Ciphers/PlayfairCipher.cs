@@ -1,20 +1,24 @@
 namespace CipherChallenge.tests;
 
-public class PlayfairCipher //TODO
+public class PlayfairCipher
 {
     [Fact]
     public void Encode()
     {
-        string expected = "";
-        string actual = "Test";
+        CipherChallenge.PlayfairCipher playfairCipher = new();
+        playfairCipher.SetKeys(["MONARCHY"]);
+        string expected = "LKTL";
+        string actual = playfairCipher.Encode("TEST");
         Assert.Equal(expected, actual);
     }
 
     [Fact]
     public void Decode()
     {
-        string expected = "Test";
-        string actual = "";
+        CipherChallenge.PlayfairCipher playfairCipher = new();
+        playfairCipher.SetKeys(["MONARCHY"]);
+        string expected = "TEST";
+        string actual = playfairCipher.Decode("LKTL");
         Assert.Equal(expected, actual);
     }
 }

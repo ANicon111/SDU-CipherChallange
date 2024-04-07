@@ -10,21 +10,21 @@ class AtbashCipher() : ICipher
 
     public string? SetKeys(List<string> keyStrings) => null;
 
-    public string Decode(string encodedText)
+    public string Encode(string plainText)
     {
-        char[] decodedText = new char[encodedText.Length];
-        for (int i = 0; i < encodedText.Length; i++)
+        char[] encodedText = new char[plainText.Length];
+        for (int i = 0; i < plainText.Length; i++)
         {
-            if ('A' <= encodedText[i] && encodedText[i] <= 'Z')
-                decodedText[i] = (char)('Z' + 'A' - encodedText[i]);
-            else if ('a' <= encodedText[i] && encodedText[i] <= 'z')
-                decodedText[i] = (char)('z' + 'a' - encodedText[i]);
+            if ('A' <= plainText[i] && plainText[i] <= 'Z')
+                encodedText[i] = (char)('Z' + 'A' - plainText[i]);
+            else if ('a' <= plainText[i] && plainText[i] <= 'z')
+                encodedText[i] = (char)('z' + 'a' - plainText[i]);
             else
-                decodedText[i] = encodedText[i];
+                encodedText[i] = plainText[i];
         }
-        return new(decodedText);
+        return new(encodedText);
     }
 
-    public string Encode(string plainText) => Decode(plainText); //lol
+    public string Decode(string plainText) => Encode(plainText); //lol
 
 }

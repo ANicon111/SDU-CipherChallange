@@ -71,6 +71,13 @@ public class MainWindowViewModel : ViewModelBase
 
     public void Decode()
     {
+        List<string> CipherKeyValues = [];
+        foreach (CipherKeyViewModel cipherKey in CipherKeys)
+        {
+            CipherKeyValues.Add(cipherKey.KeyValue);
+        }
+        KeyParseError = CipherList[SelectedIndex].SetKeys(CipherKeyValues);
+        if (KeyParseError != null) return;
         PlainText = CipherList[SelectedIndex].Decode(EncodedText);
     }
 }
