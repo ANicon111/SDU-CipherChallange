@@ -14,9 +14,7 @@ class DoubleTranspositionCipher() : ICipher
     };
 
     internal List<Tuple<char, int>> Order1 = [];
-    internal int[] ReverseOrder1 = [];
     internal List<Tuple<char, int>> Order2 = [];
-    internal int[] ReverseOrder2 = [];
 
     //Good luck understanding this code. I learned this design in my highschool c++ phase >:]
     public string Decode(string encodedText)
@@ -81,8 +79,6 @@ class DoubleTranspositionCipher() : ICipher
             else
                 Order1.Add(new(firstKeyString[i], i));
         Order1 = [.. Order1.OrderBy((a) => a.Item1)];
-        ReverseOrder1 = new int[Order1.Count];
-        for (int i = 0; i < Order1.Count; i++) ReverseOrder1[Order1[i].Item2] = i;
 
 
         Order2 = [];
@@ -93,8 +89,6 @@ class DoubleTranspositionCipher() : ICipher
             else
                 Order2.Add(new(secondKeyString[i], i));
         Order2 = [.. Order2.OrderBy((a) => a.Item1)];
-        ReverseOrder2 = new int[Order2.Count];
-        for (int i = 0; i < Order2.Count; i++) ReverseOrder2[Order2[i].Item2] = i;
 
         return null;
     }
