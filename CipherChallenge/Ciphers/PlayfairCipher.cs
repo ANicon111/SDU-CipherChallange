@@ -169,7 +169,7 @@ class PlayfairCipher() : ICipher
         string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         foreach (char c in keyStrings[0])
             if (!alphabet.Contains(c))
-                return "Invalid keyword; You may only use letters of the english alphabet";
+                return "Invalid keyword; You may only use capital letters of the english alphabet";
         string alphabetNoJ = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
         string keyword = keyStrings[0].Trim().ToUpper();
         for (int i = 0; i < 25; i++)
