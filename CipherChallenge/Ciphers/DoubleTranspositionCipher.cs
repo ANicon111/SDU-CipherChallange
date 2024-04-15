@@ -80,7 +80,7 @@ class DoubleTranspositionCipher() : ICipher
                 return "Invalid first key; You may only use letters of the english alphabet or numbers";
             else
                 Order1.Add(new(firstKeyString[i], i));
-        Order1.Sort((a, b) => a.Item1.CompareTo(b.Item1));
+        Order1 = [.. Order1.OrderBy((a) => a.Item1)];
         ReverseOrder1 = new int[Order1.Count];
         for (int i = 0; i < Order1.Count; i++) ReverseOrder1[Order1[i].Item2] = i;
 
@@ -92,7 +92,7 @@ class DoubleTranspositionCipher() : ICipher
                 return "Invalid second key; You may only use letters of the english alphabet or numbers";
             else
                 Order2.Add(new(secondKeyString[i], i));
-        Order2.Sort((a, b) => a.Item1.CompareTo(b.Item1));
+        Order2 = [.. Order2.OrderBy((a) => a.Item1)];
         ReverseOrder2 = new int[Order2.Count];
         for (int i = 0; i < Order2.Count; i++) ReverseOrder2[Order2[i].Item2] = i;
 
