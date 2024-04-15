@@ -32,9 +32,9 @@ public class MainWindowViewModel : ViewModelBase
 
     public ObservableCollection<CipherKeyViewModel> CipherKeys { get; } = [];
     private string plainText = "";
-    public string PlainText { get => plainText; set => this.RaiseAndSetIfChanged(ref plainText, value); }
+    public string FirstText { get => plainText; set => this.RaiseAndSetIfChanged(ref plainText, value); }
     private string encodedText = "";
-    public string EncodedText { get => encodedText; set => this.RaiseAndSetIfChanged(ref encodedText, value); }
+    public string SecondText { get => encodedText; set => this.RaiseAndSetIfChanged(ref encodedText, value); }
     private string? keyParseError = "";
     public string? KeyParseError { get => keyParseError; set => this.RaiseAndSetIfChanged(ref keyParseError, value); }
 
@@ -65,8 +65,7 @@ public class MainWindowViewModel : ViewModelBase
         }
         KeyParseError = CipherList[SelectedIndex].SetKeys(CipherKeyValues);
         if (KeyParseError != null) return;
-        EncodedText = CipherList[SelectedIndex].Encode(PlainText);
-
+        SecondText = CipherList[SelectedIndex].Encode(FirstText);
     }
 
     public void Decode()
@@ -78,7 +77,31 @@ public class MainWindowViewModel : ViewModelBase
         }
         KeyParseError = CipherList[SelectedIndex].SetKeys(CipherKeyValues);
         if (KeyParseError != null) return;
-        PlainText = CipherList[SelectedIndex].Decode(EncodedText);
+        FirstText = CipherList[SelectedIndex].Decode(SecondText);
+    }
+
+    public void EncodeReversed()
+    {
+        List<string> CipherKeyValues = [];
+        foreach (CipherKeyViewModel cipherKey in CipherKeys)
+        {
+            CipherKeyValues.Add(cipherKey.KeyValue);
+        }
+        KeyParseError = CipherList[SelectedIndex].SetKeys(CipherKeyValues);
+        if (KeyParseError != null) return;
+        FirstText = CipherList[SelectedIndex].Encode(SecondText);
+    }
+
+    public void DecodeReversed()
+    {
+        List<string> CipherKeyValues = [];
+        foreach (CipherKeyViewModel cipherKey in CipherKeys)
+        {
+            CipherKeyValues.Add(cipherKey.KeyValue);
+        }
+        KeyParseError = CipherList[SelectedIndex].SetKeys(CipherKeyValues);
+        if (KeyParseError != null) return;
+        SecondText = CipherList[SelectedIndex].Decode(FirstText);
     }
 }
 
